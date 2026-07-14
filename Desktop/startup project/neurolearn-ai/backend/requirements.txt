@@ -1,0 +1,86 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.1
+pydantic==2.8.2
+pydantic-settings==2.3.4
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+firebase-admin
+motor
+pymongo
+redis
+celery
+python-dotenv
+loguru
+email-validator
+httpx
+
+# LLM
+langchain
+langchain-community
+langchain-core
+langchain-openai
+langchain-ollama
+langchain-chroma
+chromadb
+sentence-transformers
+openai
+ollama
+tiktoken
+
+# Documents
+pymupdf
+python-docx
+python-pptx
+markdown
+beautifulsoup4
+aiofiles
+
+# OCR
+pytesseract
+paddleocr
+paddlepaddle
+opencv-python
+opencv-python-headless
+Pillow
+
+# Deep Learning
+torch
+torchvision
+transformers==4.36.2
+tokenizers==0.15.1
+timm
+onnxruntime
+
+# Machine Learning
+tensorflow
+keras
+numpy
+pandas
+scikit-learn
+matplotlib
+plotly
+seaborn
+statsmodels
+xgboost
+lightgbm
+albumentations
+
+# Security
+cryptography
+
+# Payments
+stripe
+
+# WebSockets
+websockets
+python-socketio
+aiohttp
+
+# Rate Limiting
+slowapi
+
+# Voice
+openai-whisper
+gTTS
+pydub

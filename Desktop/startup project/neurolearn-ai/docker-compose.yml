@@ -1,0 +1,91 @@
+﻿version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: neurolearn-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: neurolearn
+    networks:
+      - neurolearn-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: neurolearn-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - neurolearn-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: neurolearn-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_ORIGINS=*
+    networks:
+      - neurolearn-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: neurolearn-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - mongodb
+      - redis
+      - ollama
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - neurolearn-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: neurolearn-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - neurolearn-network
+
+volumes:
+  mongodb_data:
+  redis_data:
+  backend_logs:
+  ollama_data:
+
+networks:
+  neurolearn-network:
+    driver: bridge
