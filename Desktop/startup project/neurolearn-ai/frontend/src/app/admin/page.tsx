@@ -24,9 +24,9 @@ export default function AdminPage() {
 
   const fetchMetrics = async () => {
     try {
-      const response = await fetch(${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/dashboard/metrics, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/dashboard/metrics`, {
         headers: {
-          Authorization: Bearer ,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (response.ok) {
@@ -42,9 +42,9 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch(${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/users?limit=10, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/users?limit=10`, {
         headers: {
-          Authorization: Bearer ,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (response.ok) {
